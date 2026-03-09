@@ -15,10 +15,9 @@
 
 html {
     background-color: var(--paper-bg);
-    /* Hide scrollbar for Firefox */
     scrollbar-width: none;
-    overflow-x: hidden;
-    max-width: 100vw;
+    overflow-x: clip !important;
+    width: 100vw;
 }
 
 /* ─── Hide Scrollbar for Webkit ─── */
@@ -31,8 +30,8 @@ body {
     background-color: var(--paper-bg);
     color: var(--ink);
     position: relative;
-    overflow-x: hidden;
-    max-width: 100vw;
+    overflow-x: clip !important;
+    width: 100vw;
 }
 
 /* ─── Intro Video Loading Screen ─── */
@@ -705,72 +704,7 @@ p {
     transform: translateY(40px) rotate(0deg);
 }
 
-/* ─── Responsive ─── */
-@media (max-width: 1000px) {
-    .spotlight {
-        max-width: 100%;
-        margin: 0 1rem;
-    }
-
-    .profile-spot {
-        width: 100%;
-        max-width: 500px;
-    }
-
-    .profile-image {
-        flex: 0 0 200px;
-    }
-}
-
-@media (max-width: 768px) {
-    .hero-gif {
-        width: 500px;
-    }
-
-    .profile-spot {
-        width: 100%;
-        max-width: 350px;
-        gap: 1rem;
-    }
-
-    .profile-image {
-        flex: 0 0 160px;
-    }
-
-    h2 {
-        font-size: 2.2rem;
-    }
-
-    body {
-        /* Make texture slightly less intense on small screens */
-        background-size: 150px;
-    }
-}
-
-@media (max-width: 500px) {
-    .profile-spot {
-        flex-direction: column;
-        max-width: 250px;
-        align-items: center;
-        text-align: center;
-    }
-
-    .profile-1,
-    .profile-2,
-    .profile-3 {
-        left: 50%;
-        right: auto;
-        transform: translateX(-50%);
-    }
-
-    .profile-image {
-        width: 160px;
-    }
-
-    .scribble-box {
-        padding: 1rem;
-    }
-}
+/* ─── Media Queries moved to bottom to ensure overrides ─── */
 
 /* ─── Story Section ─── */
 .story-section {
@@ -925,6 +859,23 @@ p {
     }
 }
 
+/* ─── Unified Responsive Engine ─── */
+@media (max-width: 1000px) {
+    .spotlight {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .profile-spot {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .profile-image {
+        flex: 0 0 200px;
+    }
+}
+
 @media (max-width: 800px) {
     .story-container {
         flex-direction: column;
@@ -933,5 +884,355 @@ p {
 
     .story-section {
         padding: 3rem 1rem;
+        margin-top: 10rem;
+    }
+
+    .story-video iframe {
+        max-width: 70vw;
+    }
+
+    .pointer-anim {
+        width: 400px;
+    }
+
+    .shobit-pointer {
+        margin-right: -4rem;
+    }
+
+    .sreejan-pointer {
+        margin-left: -4rem;
+    }
+
+    .story-section .section-title {
+        font-size: 3.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+
+    /* Hero Animation */
+    .hero-gif {
+        width: 95vw;
+        max-width: 500px;
+    }
+
+    .hero {
+        padding-top: 5rem;
+        min-height: 25vh;
+        overflow: hidden;
+    }
+
+    /* Shrink the crumpled paper corners so they frame gently */
+    .top-left-paper {
+        width: 250px;
+        top: -200px;
+        left: -100px;
+    }
+
+    .middle-right-paper {
+        width: 200px;
+        top: 200px;
+        right: -120px;
+    }
+
+    /* Reset road to perfect UN-STRETCHED native ratio */
+    .spotlight {
+        aspect-ratio: 170 / 443;
+        height: auto;
+    }
+
+    .timeline-svg {
+        max-width: 100% !important;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+    }
+
+    /* Cards stack flawlessly perfectly spaced */
+    .profile-spot {
+        width: 90%;
+        max-width: 300px;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    /* Distributed natively along the un-stretched road */
+    .profile-1 {
+        top: 10%;
+        /* Pushed upward slightly */
+    }
+
+    .profile-2 {
+        top: 36%;
+    }
+
+    .profile-3 {
+        top: 65%;
+    }
+
+    .profile-1,
+    .profile-2,
+    .profile-3 {
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+    }
+
+    /* Shrink the Profile Images! */
+    .profile-image {
+        flex: none;
+        width: 110px;
+        /* Much smaller so they look proportional */
+        height: auto;
+        z-index: 5;
+        margin-bottom: -15px;
+        /* Pulls overlapping cutout down onto text card */
+    }
+
+    /* Person 1: Sahil - Curve Left */
+    .profile-1 .profile-image {
+        align-self: flex-start;
+        margin-left: -40px;
+        margin-top: 50px;
+        width: 38%;
+        /* Bumped in so he doesn't clip off left screen edge */
+    }
+
+    /* Person 2: Kashyap - Right Side Curve */
+    .profile-2 .profile-image {
+        order: 1;
+        /* Render Portrait Visually First! */
+        align-self: flex-end;
+        margin-right: -20px;
+        margin-top: 30px;
+        /* Consistently push down from origin */
+        width: 45%;
+        /* Make portrait decently sized */
+        z-index: 6;
+        /* Make sure it overlaps text box */
+    }
+
+    /* Person 3: Manav - Left Side Curve */
+    .profile-3 .profile-image {
+        align-self: flex-start;
+        margin-left: -10px;
+        margin-top: 50px;
+        width: 38%;
+    }
+
+    /* Make BTS scenes smaller and pin opposite */
+    .bts-scene,
+    .bts-scene-2,
+    .bts-scene-3 {
+        width: 130px;
+        opacity: 0.6;
+        z-index: 1;
+    }
+
+    /* Sahil is Left -> BTS Right */
+    .profile-1 .bts-scene {
+        top: 20px;
+        right: -40px;
+        left: auto;
+    }
+
+    /* Kashyap is now Right -> BTS Left */
+    .profile-2 .bts-scene-2 {
+        top: 35px;
+        left: 10px;
+        right: auto;
+    }
+
+    /* Manav is Left -> BTS Right */
+    .profile-3 .bts-scene-3 {
+        top: 275px;
+        left: -20px;
+        right: auto;
+    }
+
+    /* Shrink the text & padding so everything fits cleanly */
+    .scribble-box {
+        z-index: 4;
+        padding: 1rem;
+    }
+
+    /* Push Sahil's text box to the right for staggered overlap effect */
+    .profile-1 .scribble-box {
+        align-self: flex-end;
+        width: 70%;
+        margin-right: -30px;
+        margin-top: -150px;
+    }
+
+    /* Push Kashyap's text box left under his right portrait */
+    .profile-2 .scribble-box {
+        order: 2;
+        /* Render Box Visually Second! */
+        align-self: flex-start;
+        width: 70%;
+        margin-left: -30px;
+        margin-top: -125px;
+        /* Now pulls cleanly UP because portrait is above it */
+        z-index: 4;
+    }
+
+    /* Push Manav's text box right under his left portrait */
+    .profile-3 .scribble-box {
+        align-self: flex-end;
+        width: 70%;
+        margin-right: -30px;
+        margin-top: -150px;
+    }
+
+    /* Radically shrink the Sepak Takraw SVGs so they are smaller than Sahil */
+    .sepak-kick {
+        width: 50px;
+        top: -5%;
+        left: 0%;
+    }
+
+    .sepak-net {
+        width: 55px;
+        top: -5%;
+        right: -10%;
+    }
+
+    .sepak-ball {
+        width: 16px;
+        top: -2%;
+        left: 15%;
+    }
+
+    /* Shrink the Music SVG Notes */
+    .music-note-1 {
+        width: 25px;
+        top: -5%;
+        left: 0%;
+    }
+
+    .music-note-2 {
+        width: 20px;
+        top: 5%;
+        right: 0%;
+    }
+
+    .music-note-3 {
+        width: 22px;
+        bottom: 10%;
+        left: -5%;
+    }
+
+    /* Shrink Cricket SVGs */
+    .cricket-bat {
+        width: 45px;
+        bottom: 5%;
+        right: -10%;
+    }
+
+    .cricket-ball {
+        width: 15px;
+        bottom: 15%;
+        right: 10%;
+    }
+
+    .profile-card h2 {
+        font-size: 1.4rem;
+    }
+
+    .profile-card .subtitle {
+        font-size: 0.75rem;
+        letter-spacing: 0;
+    }
+
+    .profile-card p {
+        font-size: 0.85rem;
+        line-height: 1.2;
+    }
+
+    /* Shrink the Ending Box layout so it sits safely below Manav */
+    .ending-box {
+        bottom: -10%;
+        padding: 1.5rem 1rem;
+        max-width: 250px;
+    }
+
+    .ending-box h2 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .ending-box p {
+        font-size: 0.85rem;
+    }
+
+    .ep-tag {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.6rem;
+    }
+
+    .yt-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    /* Titles */
+    h1 {
+        font-size: 3rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    .story-section .section-title {
+        font-size: 2.2rem;
+    }
+
+    .pointer-anim {
+        width: 200px;
+        top: -40px;
+        margin-top: 0;
+        display: block !important;
+        position: absolute;
+    }
+
+    .shobit-pointer {
+        right: auto;
+        left: -105px;
+        margin-right: 0;
+        margin-top: -40px;
+    }
+
+    .sreejan-pointer {
+        left: auto;
+        right: -105px;
+        margin-left: 0;
+        margin-top: -40px;
+    }
+
+    body {
+        background-size: 150px;
+        overflow-x: hidden;
+    }
+}
+
+@media (max-width: 500px) {
+    .profile-spot {
+        width: 90vw;
+        max-width: 300px;
+        text-align: left;
+        /* Keep text clean and readable */
+    }
+
+    .profile-image {
+        width: 100px;
+        /* Slightly smaller for highly compact phones */
+    }
+
+    .story-video iframe {
+        width: 75vw;
+        max-width: 280px;
+        height: auto;
+        aspect-ratio: 9 / 16;
     }
 }

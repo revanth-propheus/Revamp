@@ -34,7 +34,8 @@ window.addEventListener("beforeunload", () => {
 });
 
 // Check if the intro has already played this session
-const hasIntroPlayed = sessionStorage.getItem("introPlayed") === "true";
+// const hasIntroPlayed = sessionStorage.getItem("introPlayed") === "true";
+const hasIntroPlayed = false; // TEMPORARILY DISABLED: Forces Intro to always play for development
 
 function finishIntro() {
     if (introComplete) return;
@@ -110,9 +111,10 @@ if (path) {
         ease: "none",
         scrollTrigger: {
             trigger: ".spotlight",
-            start: "top 80%",
-            end: "bottom 40%",
+            start: () => "top " + document.querySelector(".spotlight").getBoundingClientRect().top + "px",
+            end: "bottom 60%", // End drawing before hitting the bottom footer
             scrub: 0.5,
+            invalidateOnRefresh: true, // Re-calculates if mobile screen rotates
         }
     });
 }
