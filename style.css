@@ -53,10 +53,10 @@ body {
 }
 
 #intro-video {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    /* or 'cover' depending on preference, 'contain' ensures no clipping */
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    /* Changed to 'cover' ensures no blank edges/borders */
 }
 
 /* ─── Background Layers ─── */
