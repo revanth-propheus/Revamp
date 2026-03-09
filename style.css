@@ -77,7 +77,7 @@ body {
 }
 
 .crumple-bg {
-    background-image: url("assets/crumple texture.svg");
+    background-image: url("assets/crumple texture.png");
     background-size: cover;
     background-position: center;
     mix-blend-mode: multiply;
@@ -105,17 +105,17 @@ body {
 
 .top-left-paper {
     top: -650px;
-    left: -350px;
-    width: clamp(900px, 45vw, 1800px);
+    left: -400px;
+    width: clamp(800px, 45vw, 1600px);
     transform: rotate(-45deg);
     filter: drop-shadow(8px 8px 15px rgba(0, 0, 0, 0.25));
 }
 
 .middle-right-paper {
-    top: 325px;
-    right: -325px;
-    width: clamp(500px, 45vw, 1000px);
-    transform: rotate(-40deg);
+    top: 170px;
+    right: -200px;
+    width: clamp(700px, 45vw, 1400px);
+    transform: rotate(-30deg);
     filter: drop-shadow(8px 8px 15px rgba(0, 0, 0, 0.25));
 }
 
