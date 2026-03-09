@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revamp - Scroll Timeline</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="intro-loading-screen">
+        <video id="intro-video" src="assets/outro.mp4" autoplay muted playsinline></video>
+    </div>
+
+    <!-- Background Layers -->
+    <div class="bg-layer grid-bg"></div>
+    <div class="bg-layer crumple-bg"></div>
+
+    <!-- Decorations (Pinned to corners) -->
+    <div class="decor-container">
+        <img src="assets/dotted texture.svg" alt="" class="corner-decor top-dots">
+        <img src="assets/crumple paper.svg" alt="" class="corner-decor top-left-paper">
+        <img src="assets/crumple paper.svg" alt="" class="corner-decor middle-right-paper">
+
+        <!-- Multiple Scattered Flowers -->
+        <img src="assets/flower.svg" alt="" class="corner-decor flower flower-1">
+        <img src="assets/flower.svg" alt="" class="corner-decor flower flower-2">
+        <img src="assets/flower.svg" alt="" class="corner-decor flower flower-3">
+    </div>
+
+    <!-- Floating Paper Aeroplanes with Drawn Dotted Trails (Localized Loops) -->
+    <!-- Plane 1: Top left, small loop -->
+    <svg class="plane-svg-overlay" id="plane-svg-1" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet">
+        <defs>
+            <mask id="mask-1">
+                <path id="mask-path-1" fill="none" stroke="white" stroke-width="6"
+                    d="M -20,150 C 100,250 200,50 320,150" />
+            </mask>
+        </defs>
+        <!-- Path: simple curve -->
+        <path id="flight-path-1" d="M -20,150 C 100,250 200,50 320,150" fill="none" stroke="none" />
+        <path id="trail-path-1" class="trail-path" mask="url(#mask-1)" stroke-dasharray="6, 8" stroke="#1a1a1a"
+            stroke-width="2" stroke-linecap="round" d="M -20,150 C 100,250 200,50 320,150" fill="none" />
+        <g id="plane-1" class="plane-icon" transform="translate(-18, -18) scale(1.5)">
+            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" fill="var(--paper-bg)" stroke="#888" stroke-width="1"
+                stroke-linejoin="round" />
+        </g>
+    </svg>
+
+    <!-- Plane 2: Middle right, small loop -->
+    <svg class="plane-svg-overlay" id="plane-svg-2" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet"
+        style="top: 40%; left: auto; right: 5%;">
+        <defs>
+            <mask id="mask-2">
+                <path id="mask-path-2" fill="none" stroke="white" stroke-width="6"
+                    d="M 280,150 C 200,100 100,100 100,200 C 100,300 200,300 200,200 C 200,100 50,50 -20,100" />
+            </mask>
+        </defs>
+        <!-- Path: reverse loop-de-loop -->
+        <path id="flight-path-2"
+            d="M 280,150 C 200,100 100,100 100,200 C 100,300 200,300 200,200 C 200,100 50,50 -20,100" fill="none"
+            stroke="none" />
+        <path id="trail-path-2" class="trail-path" mask="url(#mask-2)" stroke-dasharray="6, 8" stroke="#1a1a1a"
+            stroke-width="2" stroke-linecap="round"
+            d="M 280,150 C 200,100 100,100 100,200 C 100,300 200,300 200,200 C 200,100 50,50 -20,100" fill="none" />
+        <g id="plane-2" class="plane-icon" transform="translate(-18, -18) scale(1.5)">
+            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" fill="var(--paper-bg)" stroke="#888" stroke-width="1"
+                stroke-linejoin="round" />
+        </g>
+    </svg>
+
+    <!-- Plane 3: Bottom left, tighter figure-8 loop -->
+    <svg class="plane-svg-overlay" id="plane-svg-3" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet"
+        style="top: 85%; left: 10%;">
+        <defs>
+            <mask id="mask-3">
+                <path id="mask-path-3" fill="none" stroke="white" stroke-width="6"
+                    d="M -20,150 C 100,50 200,300 350,200" />
+            </mask>
+        </defs>
+        <!-- Path: simple curve -->
+        <path id="flight-path-3" d="M -20,150 C 100,50 200,300 350,200" fill="none" stroke="none" />
+        <path id="trail-path-3" class="trail-path" mask="url(#mask-3)" stroke-dasharray="6, 8" stroke="#1a1a1a"
+            stroke-width="2" stroke-linecap="round" d="M -20,150 C 100,50 200,300 350,200" fill="none" />
+        <g id="plane-3" class="plane-icon" transform="translate(-18, -18) scale(1.5)">
+            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" fill="var(--paper-bg)" stroke="#888" stroke-width="1"
+                stroke-linejoin="round" />
+        </g>
+    </svg>
+    <!-- Hero: Large GIF Animation -->
+    <section class="hero" id="hero">
+        <img src="assets/revamp_gif1.gif" alt="Revamp Animation" class="hero-gif">
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="spotlight">
+
+        <!-- User's SVG — thinner strokes, narrower constraint -->
+        <svg class="timeline-svg" viewBox="0 0 170 443" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Thick black road -->
+            <path id="stroke-path"
+                d="M114.786 10C182.079 80.2841 34.9975 55.9346 15.2863 128.5C-4.42488 201.065 88.986 140.486 149.286 209.5C209.587 278.514 -27.9113 450.675 15.2863 305C58.484 159.325 149.286 396 149.286 432.5"
+                stroke="#1a1a1a" stroke-width="10" stroke-linecap="round" fill="none" />
+            <!-- Dashed guide line -->
+            <path
+                d="M115.499 9.5C182.792 79.7841 35.7105 55.4346 15.9993 128C-3.71186 200.565 89.6991 139.986 149.999 209C210.3 278.014 -27.1983 450.175 15.9993 304.5C59.197 158.825 149.999 395.5 149.999 432"
+                stroke="#D9D9D9" stroke-width="1" stroke-linecap="round" stroke-dasharray="8 8" />
+        </svg>
+
+        <!-- Profile 1: Sahil Barua — FIRST LEFT CURVE -->
+        <div class="profile-spot profile-1 reveal">
+            <img src="assets/BTS-1.svg" class="anim-icon bts-scene" alt="BTS Scene">
+            <div class="profile-image sway">
+                <img src="assets/net.svg" class="anim-icon sepak-net" alt="Sepak Net">
+                <img src="assets/ball.svg" class="anim-icon sepak-ball" alt="Sepak Ball">
+                <img src="assets/kick.svg" class="anim-icon sepak-kick" alt="Sepak Kick">
+                <a href="https://youtu.be/dQN3aM1K_00?si=iu8Mnh3qwEzCvTdf" target="_blank" class="profile-link">
+                    <img src="assets/Sahil Barua cutout.svg" alt="Sahil Barua">
+                </a>
+            </div>
+            <div class="profile-card scribble-box">
+                <div class="ep-tag">Episode 1</div>
+                <div class="name-container">
+                    <h2>Sahil Barua</h2>
+                    <a href="https://youtu.be/dQN3aM1K_00?si=iu8Mnh3qwEzCvTdf" target="_blank" class="yt-link">
+                        <img src="assets/youtube.svg" alt="YouTube" class="yt-icon">
+                    </a>
+                </div>
+                <span class="subtitle">CEO & MD - Dhelivery</span>
+                <p> "Navigating the journey from working with friends to leading a public company."</p>
+            </div>
+        </div>
+
+        <!-- Profile 2: Aditya Kashyap — FIRST RIGHT CURVE -->
+        <div class="profile-spot profile-2 reveal">
+            <img src="assets/BTS-2.svg" class="anim-icon bts-scene-2" alt="BTS Scene 2">
+            <div class="profile-card scribble-box">
+                <div class="ep-tag">Episode 2</div>
+                <div class="name-container">
+                    <h2>Aditya Kasyap</h2>
+                    <a href="https://youtu.be/_INVA_DdCgI?si=BjNFBlJpZZ9Ymha7" target="_blank" class="yt-link">
+                        <img src="assets/youtube.svg" alt="YouTube" class="yt-icon">
+                    </a>
+                </div>
+                <span class="subtitle">VP - Fabric Care at Unilever, Bassist at Agam </span>
+                <p>"I don't have time is a LIE, it is always an AND strategy"</p>
+            </div>
+            <div class="profile-image sway reverse-sway">
+                <img src="assets/musical note.svg" class="anim-icon music-note-1" alt="Musical Note">
+                <img src="assets/music note.svg" class="anim-icon music-note-2" alt="Music Note">
+                <img src="assets/musical note.svg" class="anim-icon music-note-3" alt="Musical Note">
+                <a href="https://youtu.be/_INVA_DdCgI?si=BjNFBlJpZZ9Ymha7" target="_blank" class="profile-link">
+                    <img src="assets/aditya kashyap cutout.svg" alt="Aditya Kashyap">
+                </a>
+            </div>
+        </div>
+
+        <!-- Profile 3: Manav Subodh — THE LOOP -->
+        <div class="profile-spot profile-3 reveal">
+            <img src="assets/BTS-3.svg" class="anim-icon bts-scene-3" alt="BTS Scene 3">
+            <div class="profile-image sway">
+                <img src="assets/cricket bat.svg" class="anim-icon cricket-bat" alt="Cricket Bat">
+                <img src="assets/cricket ball.svg" class="anim-icon cricket-ball" alt="Cricket Ball">
+                <a href="https://youtu.be/6u2CdrDf-Sk?si=B_xA5io6M4uLJAN0" target="_blank" class="profile-link">
+                    <img src="assets/Manav Subodh cutout.svg" alt="Manav Subodh">
+                </a>
+            </div>
+            <div class="profile-card scribble-box">
+                <div class="ep-tag">Episode 3</div>
+                <div class="name-container">
+                    <h2>Manav Subodh</h2>
+                    <a href="https://youtu.be/6u2CdrDf-Sk?si=B_xA5io6M4uLJAN0" target="_blank" class="yt-link">
+                        <img src="assets/youtube.svg" alt="YouTube" class="yt-icon">
+                    </a>
+                </div>
+                <span class="subtitle">Founder-CEO of 1M1B</span>
+                <p>"Fall in love with the problem, not the idea"</p>
+            </div>
+        </div>
+
+        <!-- Ending Box -->
+        <div class="ending-box reveal scribble-box dark-scribble">
+            <h2>To Be Continued...</h2>
+            <p>More scripts unwritten, more paper uncrumpled. Stay Tuned to find out who's NEXT!</p>
+        </div>
+    </section>
+
+    <!-- The Story of Revamp Section -->
+    <section class="story-section">
+        <div class="story-title-container">
+            <a href="https://www.linkedin.com/in/shobhit-shukla-7b88136/" target="_blank"
+                class="pointer-anim shobit-pointer">
+                <img src="assets/shobit_pointer.svg" alt="Shobit Pointing">
+            </a>
+            <h2 class="section-title reveal story-title-anim">Core Philosophy of Revamp</h2>
+            <a href="https://www.linkedin.com/in/sreejan-choudhary-b100095/" target="_blank"
+                class="pointer-anim sreejan-pointer">
+                <img src="assets/sreejan_pointer.svg" alt="Sreejan Pointing">
+            </a>
+        </div>
+
+        <div class="story-container reveal">
+            <!-- Left Side: YouTube Short embedded -->
+            <div class="story-video sway">
+                <iframe width="315" height="560" src="https://www.youtube.com/embed/qSCm6uz1VBc"
+                    title="The Story of Revamp" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+            </div>
+
+            <!-- Right Side: Text & Socials -->
+            <div class="story-content profile-card scribble-box">
+                <div class="ep-tag"></div>
+                <div class="name-container">
+                    <h2></h2>
+                </div>
+                <span class="subtitle"></span>
+                <p>Meaningful lives are defined by bold experimentation and the courage to reinvent
+                    oneself. Our purpose is to capture and share these unconventional journeys -
+                    the failures, the lessons and the breakthroughs - to guide the future generation
+                    toward their own possibilities. We aim to have each guest craft a tactical blueprint
+                    that enables the audience to get a head start toward their calling in a similar field.
+                    We intentionally bypass high-level wisdom, focusing instead on uncovering the practical
+                    mental models that drove the guest's change</p>
+
+                <div class="socials-container">
+                    <h3>For more follow us on our socials:</h3>
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/company/revampbyevamlabs/" target="_blank" class="yt-link"
+                            aria-label="LinkedIn">
+                            <img src="assets/linkedin.svg" alt="LinkedIn" class="yt-icon">
+                        </a>
+                        <a href="https://www.instagram.com/revamp0fficial/" target="_blank" class="yt-link"
+                            aria-label="Instagram">
+                            <img src="assets/instagram.svg" alt="Instagram" class="yt-icon">
+                        </a>
+                        <a href="https://x.com/Revamp0fficial" target="_blank" class="yt-link" aria-label="X (Twitter)">
+                            <img src="assets/X.svg" alt="X" class="yt-icon">
+                        </a>
+                        <a href="http://youtube.com/@Revamp.Official.26" target="_blank" class="yt-link"
+                            aria-label="YouTube">
+                            <img src="assets/youtube.svg" alt="YouTube" class="yt-icon">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>
