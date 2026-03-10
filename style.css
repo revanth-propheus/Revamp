@@ -1236,3 +1236,20 @@ p {
         aspect-ratio: 9 / 16;
     }
 }
+
+/* Adjust landscape orientation constraints to perfectly center the Hero GIF at scroll zero */
+@media (max-width: 950px) and (orientation: landscape) {
+    .hero {
+        /* Strip the large desktop empty padding so the GIF naturally slides up into view */
+        padding-top: 0rem;
+        min-height: auto;
+    }
+
+    .hero-gif {
+        width: 100vw;
+        max-width: 750px;
+        /* Increased max-width significantly so it doesn't get artificially restrained */
+        /* Negate the +20px downward shifting meant for portraits */
+        transform: translateY(0);
+    }
+}

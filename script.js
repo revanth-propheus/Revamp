@@ -36,7 +36,15 @@ window.addEventListener("beforeunload", () => {
 });
 
 // Check if the intro has already played this session
-const hasIntroPlayed = sessionStorage.getItem("introPlayed") === "true";
+let hasIntroPlayed = sessionStorage.getItem("introPlayed") === "true";
+
+// As requested: Force the intro to always play on every single refresh for mobile devices
+const isMobileDevice = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth <= 950;
+if (isMobileDevice) {
+    hasIntroPlayed = false;
+    sessionStorage.removeItem("introPlayed"); // Keep it clean
+}
+
 function finishIntro() {
     if (introComplete) return;
     introComplete = true;
@@ -74,15 +82,21 @@ if (hasIntroPlayed) {
 
     // Auto-finish after Video ends (or if it crashes/fails to load)
     if (introVideo) {
+        // Mobile browsers (specifically Safari) mandate the properties be explicitly true 
+        // in JS before programmatic play, regardless of HTML attributes
+        introVideo.muted = true;
+        introVideo.playsInline = true;
+
         // Fallback for browsers (Chrome) that might outright reject Apple's MOV alpha format
         introVideo.addEventListener("ended", finishIntro);
         introVideo.addEventListener("error", finishIntro);
-        introVideo.addEventListener("stalled", finishIntro);
+        // We REMOVED the "stalled" event listener here because cellular mobile connections 
+        // frequently temporarily stop buffering to save data, which was causing the intro to falsely skip!
 
         // Force a programmatic play attempt (fixes Some Safari strict autoplay rules)
         let playPromise = introVideo.play();
         if (playPromise !== undefined) {
-            playPromise.catch(_ => finishIntro()); // If browser aggressively blocks, just skip 
+            playPromise.catch(_ => finishIntro()); // If browser aggressively blocks (like Low Power Mode), just skip 
         }
     } else {
         setTimeout(finishIntro, 3000);
@@ -113,8 +127,28 @@ if (path) {
         ease: "none",
         scrollTrigger: {
             trigger: ".spotlight",
-            start: () => "top " + document.querySelector(".spotlight").getBoundingClientRect().top + "px",
-            end: "bottom 60%", // End drawing before hitting the bottom footer
+            start: () => {
+                // Determine starting position dynamically depending on orientation
+                let boundingTop = document.querySelector(".spotlight").getBoundingClientRect().top;
+
+                // If we are in mobile landscape, wait until the user has actually scrolled 
+                // lower into the page before starting the line drawing to avoid it finishing out-of-frame
+                const isMobileLandscape = window.innerWidth <= 950 && window.matchMedia("(orientation: landscape)").matches;
+                if (isMobileLandscape) {
+                    // Start much later (further down) and visually catch up 
+                    return "top " + (boundingTop - 100) + "px";
+                }
+
+                return "top " + boundingTop + "px";
+            },
+            end: () => {
+                const isMobileLandscape = window.innerWidth <= 950 && window.matchMedia("(orientation: landscape)").matches;
+                if (isMobileLandscape) {
+                    // Finish the curve much quicker in landscape so it outpaces the scrolling speed
+                    return "bottom 40%";
+                }
+                return "bottom 60%"; // End drawing before hitting the bottom footer
+            },
             scrub: 0.5,
             invalidateOnRefresh: true, // Re-calculates if mobile screen rotates
         }
