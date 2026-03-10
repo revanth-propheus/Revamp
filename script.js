@@ -88,9 +88,9 @@ if (hasIntroPlayed) {
         setTimeout(finishIntro, 3000);
     }
 
-    // Skip intro on any scroll attempt (wheel/touch)
+    // Skip intro on any scroll attempt (wheel), but NOT purely touch to prevent accidental
+    // instant-skips by resting a thumb on mobile screens while loading.
     window.addEventListener("wheel", finishIntro, { once: true });
-    window.addEventListener("touchstart", finishIntro, { once: true });
 }
 
 lenis.on("scroll", ScrollTrigger.update);
