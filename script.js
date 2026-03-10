@@ -31,12 +31,12 @@ window.addEventListener("beforeunload", () => {
     if (isShiftHeld) {
         sessionStorage.removeItem("introPlayed");
     }
+    // Zero out native scroll before page unloads to stop active momentum
+    window.scrollTo(0, 0);
 });
 
 // Check if the intro has already played this session
-// const hasIntroPlayed = sessionStorage.getItem("introPlayed") === "true";
-const hasIntroPlayed = false; // TEMPORARILY DISABLED: Forces Intro to always play for development
-
+const hasIntroPlayed = sessionStorage.getItem("introPlayed") === "true";
 function finishIntro() {
     if (introComplete) return;
     introComplete = true;
@@ -55,6 +55,8 @@ function finishIntro() {
 
 // ─── Smooth scrolling with Lenis ───
 const lenis = new Lenis();
+// Instantly reset lenis to the top and kill any lingering scroll momentum from native browser
+lenis.scrollTo(0, { immediate: true });
 
 if (hasIntroPlayed) {
     // Skip intro entirely on standard reloads
