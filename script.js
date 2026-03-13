@@ -173,7 +173,7 @@ document.querySelectorAll(".reveal").forEach((el) => {
 });
 
 // ─── Floating Aeroplanes (MotionPath + Drawn Dotted Trail) ───
-[1, 2, 3].forEach((n, i) => {
+[1, 2, 3, 4].forEach((n, i) => {
     const flightPath = document.getElementById(`flight-path-${n}`);
     const trailPath = document.getElementById(`trail-path-${n}`);
     const maskPath = document.getElementById(`mask-path-${n}`);
@@ -181,14 +181,17 @@ document.querySelectorAll(".reveal").forEach((el) => {
     if (!flightPath || !trailPath || !maskPath || !planeIcon) return;
 
     const totalLen = maskPath.getTotalLength();
-    const dur = 9 + i * 2; // staggered durations
+    let dur = 9 + i * 2; // staggered durations
+    if (n === 4) {
+        dur = 6; // make the globe orbit plane much faster
+    }
 
     // Initialize mask as invisible (hidden via dashoffset)
     gsap.set(maskPath, { strokeDasharray: totalLen, strokeDashoffset: totalLen });
     gsap.set(trailPath, { opacity: 0.35 });
     gsap.set(planeIcon, { opacity: 0.7 });
 
-    const tl = gsap.timeline({ repeat: -1, delay: i * 3 });
+    const tl = gsap.timeline({ repeat: -1, delay: n === 4 ? 0 : i * 3 });
 
     // Draw trail (mask dashoffset → 0) and fly plane along path simultaneously
     tl.to(maskPath, { strokeDashoffset: 0, duration: dur, ease: "none" }, 0);

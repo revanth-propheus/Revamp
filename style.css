@@ -259,7 +259,7 @@ p {
     */
     max-width: 800px;
     margin: 0 auto;
-    aspect-ratio: 170 / 443;
+    aspect-ratio: 170 / 504;
     overflow: visible;
     padding-top: 0;
 }
@@ -293,6 +293,11 @@ p {
     flex: 0 0 280px;
     /* Much larger images for cutouts */
     position: relative;
+}
+
+/* Make Hari Ganapathy bigger on desktop */
+.profile-4 .profile-image {
+    flex: 0 0 330px;
 }
 
 .profile-image .profile-link img {
@@ -442,7 +447,7 @@ p {
     top: 400px;
     right: -200px;
     /* Pull it far to the right side of the card into the empty space */
-    width: 500px;
+    width: 400px;
     opacity: 0.85;
     z-index: 1;
     filter:
@@ -544,6 +549,46 @@ p {
 
     100% {
         transform: translate(-100px, -60px) scale(0.7);
+        opacity: 0;
+    }
+}
+
+.plane-orbit {
+    position: absolute;
+    width: 150px;
+    bottom: 20%;
+    right: 50%;
+    transform-origin: center right;
+    animation: plane-globe 6s linear infinite;
+    z-index: 7;
+    /* Stay above portrait */
+    opacity: 0.9;
+}
+
+@keyframes plane-globe {
+    0% {
+        /* Start from left side, behind him potentially or just off left */
+        transform: translateX(-120px) translateY(20px) scale(0.8) rotate(15deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    50% {
+        /* Bottom center, swooping down and around */
+        transform: translateX(20px) translateY(50px) scale(1.1) rotate(0deg);
+        z-index: 7;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        /* Curve up right side, going away/behind */
+        transform: translateX(150px) translateY(-30px) scale(0.6) rotate(-25deg);
         opacity: 0;
     }
 }
@@ -659,28 +704,35 @@ p {
    We pull them a bit to overlap with the svg path nicely.
 */
 .profile-1 {
-    top: 24%;
+    top: 21%;
     right: 48%;
     /* Adjusting overlap */
 }
 
 .profile-2 {
-    top: 43%;
+    top: 38%;
     left: 48%;
 }
 
 .profile-3 {
-    top: 62%;
+    top: 54%;
     right: 48%;
+}
+
+.profile-4 {
+    top: 78%;
+    left: 48%;
+    width: 750px;
+    /* Expanded to compensate for his larger image size! */
 }
 
 /* ─── Ending Box ─── */
 .ending-box {
     position: absolute;
     z-index: 2;
-    bottom: -5%;
-    /* Just below the SVG */
-    left: 50%;
+    top: 98%;
+    /* Precisely below the SVG path endpoint */
+    left: auto;
     transform: translateX(-50%) rotate(-2deg);
     text-align: center;
     padding: 2rem 3rem;
@@ -884,7 +936,8 @@ p {
 
     .story-section {
         padding: 3rem 1rem;
-        margin-top: 10rem;
+        margin-top: 15rem;
+        /* Pushed significantly down to clear content */
     }
 
     .story-video iframe {
@@ -937,7 +990,7 @@ p {
 
     /* Reset road to perfect UN-STRETCHED native ratio */
     .spotlight {
-        aspect-ratio: 170 / 443;
+        aspect-ratio: 170 / 504;
         height: auto;
     }
 
@@ -958,16 +1011,21 @@ p {
 
     /* Distributed natively along the un-stretched road */
     .profile-1 {
-        top: 10%;
+        top: 9%;
         /* Pushed upward slightly */
     }
 
     .profile-2 {
-        top: 36%;
+        top: 32%;
     }
 
     .profile-3 {
-        top: 65%;
+        top: 57%;
+    }
+
+    .profile-4 {
+        top: 73%;
+        /* Moved from 80% to bring it further up the road path */
     }
 
     .profile-1,
@@ -976,6 +1034,14 @@ p {
         left: 50%;
         right: auto;
         transform: translateX(-50%);
+    }
+
+    .profile-4 {
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        min-height: 250px;
+        /* Pre-allocate space for the absolutely positioned elements */
     }
 
     /* Shrink the Profile Images! */
@@ -1020,6 +1086,19 @@ p {
         width: 38%;
     }
 
+    /* Person 4: Ganapathy - Right Side Curve */
+    .profile-4 .profile-image {
+        position: absolute;
+        /* Move profile pic to the right a bit, edit 'right' and 'top' to move freely */
+        right: -75px;
+        top: 10px;
+        width: 60%;
+        /* Bumped up from 50% to make him visibly bigger on mobile */
+        z-index: 6;
+        margin: 0;
+        /* Reset margins */
+    }
+
     /* Make BTS scenes smaller and pin opposite */
     .bts-scene,
     .bts-scene-2,
@@ -1045,8 +1124,8 @@ p {
 
     /* Manav is Left -> BTS Right */
     .profile-3 .bts-scene-3 {
-        top: 275px;
-        left: -20px;
+        top: 225px;
+        left: -70px;
         right: auto;
     }
 
@@ -1082,6 +1161,18 @@ p {
         width: 70%;
         margin-right: -30px;
         margin-top: -150px;
+    }
+
+    /* Push Ganapathy's text box left under his right portrait */
+    .profile-4 .scribble-box {
+        position: absolute;
+        /* Move scribble box a bit up, edit 'left' and 'top' to move freely */
+        left: -20px;
+        top: 100px;
+        width: 75%;
+        z-index: 4;
+        margin: 0;
+        /* Reset margins */
     }
 
     /* Radically shrink the Sepak Takraw SVGs so they are smaller than Sahil */
@@ -1149,9 +1240,11 @@ p {
         line-height: 1.2;
     }
 
-    /* Shrink the Ending Box layout so it sits safely below Manav */
+    /* Shrink the Ending Box layout so it sits safely below Ganapathy */
     .ending-box {
-        bottom: -10%;
+        top: 97%;
+        /* Aligns perfectly with the end of the road curve */
+        /* Pushed down to clear mobile stacked cards */
         padding: 1.5rem 1rem;
         max-width: 250px;
     }
