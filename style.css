@@ -276,6 +276,8 @@ p {
     width: auto;
     z-index: 1;
     pointer-events: none;
+    overflow: visible;
+    /* Allow road extension past viewBox */
 }
 
 /* ─── Profile Spots ─── */
@@ -733,15 +735,38 @@ p {
     /* New left curve for Surobhi */
 }
 
+.profile-6 {
+    top: 96%;
+    left: 58%;
+    width: 750px;
+    align-items: flex-end;
+    /* Align card and image to same baseline */
+    /* Right curve after Surobhi — shifted right */
+}
+
+/* Make Vivek bigger on desktop */
+.profile-6 .profile-image {
+    flex: 0 0 450px;
+    margin-left: -80px;
+    /* Pull image left toward the box */
+}
+
+.profile-6 .profile-card {
+    padding-right: 0.5rem;
+}
+
 /* Make Surobhi bigger on desktop */
 .profile-5 .profile-image {
     flex: 0 0 330px;
-    margin-right: -80px; /* Overlaps text box slightly to close the massive transparent gap gracefully */
+    margin-right: -80px;
+    /* Overlaps text box slightly to close the massive transparent gap gracefully */
 }
+
 .profile-5 .profile-image .profile-link img {
     transform: scale(1.45);
     transform-origin: bottom center;
 }
+
 .profile-5 .profile-image .profile-link:hover img {
     transform: scale(1.5);
     transform-origin: bottom center;
@@ -751,13 +776,13 @@ p {
 .ending-box {
     position: absolute;
     z-index: 2;
-    top: 94%;
-    /* Precisely below the SVG path endpoint */
-    left: 65%;
+    top: 116%;
+    /* At the road endpoint, below Profile 6 */
+    left: -5%;
     transform: translateX(-50%) rotate(-2deg);
     text-align: center;
     padding: 2rem 3rem;
-    max-width: 400px;
+    max-width: 415px;
 }
 
 .dark-scribble {
@@ -782,8 +807,8 @@ p {
 /* ─── Story Section ─── */
 .story-section {
     padding: 6rem 2rem;
-    margin-top: 15rem;
-    /* Moves the section well below the road */
+    margin-top: 35rem;
+    /* Moves the section well below the road + Profile 6 */
     max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
@@ -957,8 +982,8 @@ p {
 
     .story-section {
         padding: 3rem 1rem;
-        margin-top: 15rem;
-        /* Pushed significantly down to clear content */
+        margin-top: 30rem;
+        /* Pushed down to clear road + Profile 6 */
     }
 
     .story-video iframe {
@@ -1205,15 +1230,19 @@ p {
 
     .profile-5 .profile-image {
         position: absolute;
-        left: -120px; /* Mirrors Ganapathy's right: -75px — bleeds off left edge */
-        top: 105px;   /* Same as Ganapathy */
-        width: 100%;  /* Same as Ganapathy */
+        left: -120px;
+        /* Mirrors Ganapathy's right: -75px — bleeds off left edge */
+        top: 105px;
+        /* Same as Ganapathy */
+        width: 100%;
+        /* Same as Ganapathy */
         z-index: 6;
         margin: 0;
     }
 
     .profile-5 .profile-image .profile-link img {
-        transform: none; /* No scale, matching Ganapathy's mobile treatment */
+        transform: none;
+        /* No scale, matching Ganapathy's mobile treatment */
     }
 
     .profile-5 .profile-image .profile-link:hover img {
@@ -1224,7 +1253,39 @@ p {
     .profile-5 .scribble-box {
         position: absolute;
         right: -10px;
-        top: 100px; /* Matches Ganapathy's card offset from image top */
+        top: 100px;
+        /* Matches Ganapathy's card offset from image top */
+        width: 75%;
+        z-index: 4;
+        margin: 0;
+    }
+
+    /* Person 6: Vivek Sundar — Right Side Curve (mirrors Ganapathy) */
+    .profile-6 {
+        top: 100%;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        min-height: 220px;
+    }
+
+    .profile-6 .profile-image {
+        position: absolute;
+        right: -125px;
+        /* Mirrors Surobhi's left: -120px */
+        top: 80px;
+        /* Same as Surobhi */
+        width: 100%;
+        /* Same as Surobhi */
+        z-index: 6;
+        margin: 0;
+    }
+
+    .profile-6 .scribble-box {
+        position: absolute;
+        left: -40px;
+        top: 100px;
+        /* Matches Surobhi's card offset */
         width: 75%;
         z-index: 4;
         margin: 0;
@@ -1234,10 +1295,11 @@ p {
         left: 0;
         right: 0;
         margin: 0 auto;
-        top: 107%; /* Aligned with the extended road tip (~615 SVG units, overflow visible) */
+        top: 120%;
+        /* Tighter to Profile 6 */
         width: 90%;
         max-width: 320px;
-        transform: rotate(-2deg); /* Explicit so GSAP animation doesn't wipe it */
+        transform: rotate(-2deg);
     }
 
     /* Radically shrink the Sepak Takraw SVGs so they are smaller than Sahil */
@@ -1407,5 +1469,62 @@ p {
         /* Increased max-width significantly so it doesn't get artificially restrained */
         /* Negate the +20px downward shifting meant for portraits */
         transform: translateY(0);
+    }
+
+    /* ─── Landscape: pull all profiles toward center ─── */
+    .profile-1 .profile-image {
+        margin-left: -10px;
+    }
+
+    .profile-1 .scribble-box {
+        margin-right: -10px;
+    }
+
+    .profile-2 .profile-image {
+        margin-right: 0px;
+    }
+
+    .profile-2 .scribble-box {
+        margin-left: -10px;
+    }
+
+    .profile-3 .profile-image {
+        margin-left: 0px;
+    }
+
+    .profile-3 .scribble-box {
+        margin-right: -10px;
+    }
+
+    .profile-4 .profile-image {
+        right: -20px;
+    }
+
+    .profile-4 .scribble-box {
+        left: 5px;
+    }
+
+    .profile-5 .profile-image {
+        left: -20px;
+    }
+
+    .profile-5 .scribble-box {
+        right: 5px;
+    }
+
+    .profile-6 .profile-image {
+        right: -20px;
+    }
+
+    .profile-6 .scribble-box {
+        left: 5px;
+    }
+
+    .profile-1 .bts-scene {
+        right: 10px;
+    }
+
+    .profile-3 .bts-scene-3 {
+        left: -20px;
     }
 }
