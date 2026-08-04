@@ -147,7 +147,12 @@ if (path) {
                     // Finish the curve much quicker in landscape so it outpaces the scrolling speed
                     return "bottom 40%";
                 }
-                return "bottom 60%"; // End drawing before hitting the bottom footer
+                // The road now runs ~28% of the section's height BELOW .spotlight's box
+                // (Profile 7 + the ending box). Stretch the scrub that far so the drawing
+                // finishes when the real tail enters the viewport, not a screen early.
+                const spotlight = document.querySelector(".spotlight");
+                const tail = spotlight.getBoundingClientRect().height * 0.28;
+                return "bottom " + Math.round(window.innerHeight - tail) + "px";
             },
             scrub: 0.5,
             invalidateOnRefresh: true, // Re-calculates if mobile screen rotates
