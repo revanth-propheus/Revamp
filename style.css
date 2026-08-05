@@ -813,7 +813,7 @@ p {
 .ending-box {
     position: absolute;
     z-index: 2;
-    top: 128%;
+    top: 133%;
     /* At the road endpoint, below Profile 7 — road now lands mid-page */
     left: 50%;
     margin-left: -200px;
@@ -847,7 +847,7 @@ p {
 /* ─── Story Section ─── */
 .story-section {
     padding: 6rem 2rem;
-    margin-top: 69rem;
+    margin-top: 76rem;
     /* Moves the section well below the extended road + Profile 7 + ending box */
     max-width: 1000px;
     margin-left: auto;
@@ -1022,7 +1022,7 @@ p {
 
     .story-section {
         padding: 3rem 1rem;
-        margin-top: 45rem;
+        margin-top: 41rem;
         /* Pushed down to clear road + Profile 7 + ending box */
     }
 
@@ -1059,6 +1059,16 @@ p {
         padding-top: 5rem;
         min-height: 25vh;
         overflow: hidden;
+    }
+
+    /* Portrait: the GIF owns the whole first screen, centred and stationary.
+       Everything below it is lifted up to meet it by the pinned scrub in script.js. */
+    @media (orientation: portrait) {
+        .hero {
+            padding-top: 0;
+            min-height: 100vh;
+            align-items: center;
+        }
     }
 
     /* Shrink the crumpled paper corners so they frame gently */
@@ -1302,7 +1312,7 @@ p {
 
     /* Person 6: Vivek Sundar — Right Side Curve (mirrors Ganapathy) */
     .profile-6 {
-        top: 100%;
+        top: 97%;
         left: 50%;
         right: auto;
         transform: translateX(-50%);
@@ -1333,7 +1343,7 @@ p {
 
     /* Person 7: Amish Tripathi — Left Side Curve (mirrors Surobhi) */
     .profile-7 {
-        top: 118%;
+        top: 109%;
         left: 50%;
         right: auto;
         transform: translateX(-50%);
@@ -1373,8 +1383,8 @@ p {
         left: 0;
         right: 0;
         margin: 0 auto;
-        top: 139%;
-        /* Below Profile 7 */
+        top: 134%;
+        /* Sits right where the road tail ends, just under Profile 7 */
         width: 90%;
         max-width: 320px;
         transform: rotate(-2deg);

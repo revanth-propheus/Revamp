@@ -45,11 +45,27 @@ if (isMobileDevice) {
     sessionStorage.removeItem("introPlayed"); // Keep it clean
 }
 
+// Mobile plays the hero GIF exactly once, starting the moment the intro video ends.
+// Same artwork, but with the GIF's loop count set to 1 so it freezes on the last frame.
+const ONCE_GIF = "assets/revamp_gif2_once.gif";
+const isNarrowScreen = () => window.innerWidth <= 768;
+if (isNarrowScreen()) {
+    const preload = new Image();
+    preload.src = ONCE_GIF; // warm the cache while the intro video is on screen
+}
+
 function finishIntro() {
     if (introComplete) return;
     introComplete = true;
     document.body.classList.remove("intro-locked");
     lenis.start();
+
+    // Swapping the src restarts playback from frame 0 — so the single run begins
+    // now, in view, rather than having looped away behind the intro overlay.
+    if (isNarrowScreen()) {
+        const gif = document.querySelector(".hero-gif");
+        if (gif) gif.src = ONCE_GIF;
+    }
 
     if (introLoadingScreen) {
         introLoadingScreen.style.opacity = "0";
@@ -113,6 +129,55 @@ gsap.ticker.add((time) => {
 });
 gsap.ticker.lagSmoothing(0);
 
+// ─── Mobile portrait: hero GIF holds the first screen, the rest rises to meet it ───
+// The hero is 100vh with the GIF centred, so on load the GIF sits alone in the middle
+// of the screen. The GIF never moves: we pin the hero and slide EVERYTHING BELOW it
+// (the road + the story section) upwards by the empty space under the GIF, so the road
+// climbs up and joins the GIF's bottom edge. That shift stays applied afterwards —
+// it IS the resting layout — with a matching negative margin so the document doesn't
+// grow a blank tail.
+let heroPinDistance = 0; // px of scroll the pinned hero eats; road draw waits this long
+const isMobilePortrait = () =>
+    window.innerWidth <= 768 && window.matchMedia("(orientation: portrait)").matches;
+
+const heroGif = document.querySelector(".hero-gif");
+const belowHero = [document.querySelector(".spotlight"), document.querySelector(".story-section")].filter(Boolean);
+
+if (heroGif && belowHero.length) {
+    gsap.matchMedia().add("(max-width: 768px) and (orientation: portrait)", () => {
+        // Blank space under the centred GIF, less the 20px the road start overlaps by.
+        const slack = () => Math.max(0, (window.innerHeight - heroGif.offsetHeight) / 2 - 20);
+        heroPinDistance = slack();
+
+        const tween = gsap.fromTo(belowHero,
+            { y: 0 },
+            {
+                y: () => -slack(),
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".hero",
+                    start: "top top",
+                    end: () => "+=" + slack(),
+                    pin: true,
+                    scrub: 0.6,
+                    invalidateOnRefresh: true,
+                    onRefresh: () => { heroPinDistance = slack(); },
+                }
+            });
+
+        // Pull the page end up by the same amount the content was lifted.
+        const last = belowHero[belowHero.length - 1];
+        gsap.set(last, { marginBottom: () => -slack() });
+
+        return () => {
+            heroPinDistance = 0;
+            tween.scrollTrigger && tween.scrollTrigger.kill();
+            gsap.set(belowHero, { clearProps: "transform" });
+            gsap.set(last, { clearProps: "marginBottom" });
+        };
+    });
+}
+
 // ─── SVG Path draw-on-scroll ───
 const path = document.getElementById("stroke-path");
 if (path) {
@@ -137,6 +202,13 @@ if (path) {
                 if (isMobileLandscape) {
                     // Start much later (further down) and visually catch up 
                     return "top " + (boundingTop - 100) + "px";
+                }
+
+                // Mobile portrait pins the hero for heroPinDistance px before the road even
+                // reaches the GIF — hold the drawing back by that much so it isn't already
+                // part-drawn by the time it first appears.
+                if (isMobilePortrait() && heroPinDistance) {
+                    return "top " + (boundingTop - heroPinDistance) + "px";
                 }
 
                 return "top " + boundingTop + "px";
